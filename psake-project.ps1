@@ -27,15 +27,15 @@ Task Merge -Depends Build -Description "Run ILRepack /internalize to merge requi
     Repack-Assembly @("Hangfire.SqlServer", "netstandard2.0") @("Dapper")
 }
 
-Task Test -Depends Merge -Description "Run unit and integration tests against merged assemblies." {
+#Task Test -Depends Merge -Description "Run unit and integration tests against merged assemblies." {
     # Dependencies shouldn't be re-built, because we need to run tests against merged assemblies to test
     # the same assemblies that are distributed to users. Since the `dotnet test` command doesn't support
     # the `--no-dependencies` command directly, we need to re-build tests themselves first.
-    Exec { ls "tests\**\*.csproj" | % { dotnet build -c Release --no-dependencies $_.FullName } }
-    Exec { ls "tests\**\*.csproj" | % { dotnet test -c Release --no-build $_.FullName } }
-}
+  #  Exec { ls "tests\**\*.csproj" | % { dotnet build -c Release --no-dependencies $_.FullName } }
+ #   Exec { ls "tests\**\*.csproj" | % { dotnet test -c Release --no-build $_.FullName } }
+#}
 
-Task Collect -Depends Test -Description "Copy all artifacts to the build folder." {
+Task Collect  -Description "Copy all artifacts to the build folder." {#-Depends Test
     Collect-Assembly "Hangfire.Core" "net45"
     Collect-Assembly "Hangfire.SqlServer" "net45"
     Collect-Assembly "Hangfire.SqlServer.Msmq" "net45"
